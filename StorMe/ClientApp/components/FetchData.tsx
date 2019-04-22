@@ -1,63 +1,94 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import 'isomorphic-fetch';
+import { Link, NavLink } from 'react-router-dom';
 
-interface FetchDataExampleState {
-    forecasts: WeatherForecast[];
+interface FetchNotesDataState {
+    notes: NotesData[];
     loading: boolean;
 }
 
-export class FetchData extends React.Component<RouteComponentProps<{}>, FetchDataExampleState> {
-    constructor() {
+export class FetchData extends React.Component<RouteComponentProps<{}>, FetchNotesDataState>
+{
+    constructor()
+    {
         super();
-        this.state = { forecasts: [], loading: true };
+        this.state = { notes: [], loading: true };
 
-        fetch('api/SampleData/WeatherForecasts')
-            .then(response => response.json() as Promise<WeatherForecast[]>)
+        fetch('api/StorMe/Notes')
+            .then(response => response.json() as Promise<NotesData[]>)
             .then(data => {
-                this.setState({ forecasts: data, loading: false });
+                this.setState({ notes: data, loading: false });
             });
     }
 
-    public render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : FetchData.renderForecastsTable(this.state.forecasts);
+    public render()
+    {
+        let contents = this.renderAllNotes(this.state.notes);
 
         return <div>
-            <h1>Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            { contents }
-        </div>;
+            <h1>StorMe</h1>
+            <p>
+                <Link to="/addNote">Create New</Link>
+            </p>
+            {contents}
+        </div>;  
     }
 
-    private static renderForecastsTable(forecasts: WeatherForecast[]) {
+    // Handle Delete request  
+    private handleDelete(id: number) {
+        if (!confirm("Do you want to delete this note? "))
+            return;
+        else {
+            fetch('api/StorMe/Delete/' + id, {
+                method: 'delete'
+            }).then(data => {
+                this.setState(
+                    {
+                        notes: this.state.notes.filter((rec) => {
+                            return (rec.noteId != id);
+                        })
+                    });
+            });
+        }
+    }
+    private handleEdit(id: number) {
+        this.props.history.push("/StorMe/edit/" + id);
+    }  
+
+    public renderAllNotes(notes: NotesData[] )
+    {
         return <table className='table'>
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
+                    <th></th>
+                    <th>NoteId</th>
+                    <th>Label</th>
+                    <th>Title</th>
+                    <th>Text</th>
                 </tr>
             </thead>
             <tbody>
-            {forecasts.map(forecast =>
-                <tr key={ forecast.dateFormatted }>
-                    <td>{ forecast.dateFormatted }</td>
-                    <td>{ forecast.temperatureC }</td>
-                    <td>{ forecast.temperatureF }</td>
-                    <td>{ forecast.summary }</td>
-                </tr>
-            )}
+                {notes.map(note =>
+                    <tr key={note.noteId}>
+                        <td></td>
+                        <td>{note.noteId}</td>
+                        <td>{note.label}</td>
+                        <td>{note.title}</td>
+                        <td>{note.text}</td>
+                        <td>
+                            <a className="action" onClick={(id) => this.handleEdit(note.noteId)}>Edit</a>  |
+                            <a className="action" onClick={(id) => this.handleDelete(note.noteId)}>Delete</a>
+                        </td>
+                    </tr>
+                )}
             </tbody>
-        </table>;
+        </table>;  
     }
 }
 
-interface WeatherForecast {
-    dateFormatted: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
+export class NotesData {
+    noteId: number = 0;
+    label: string = "";
+    title: string = "";
+    text: string = "";
 }

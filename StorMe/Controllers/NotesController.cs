@@ -14,14 +14,15 @@ namespace StorMe.Controllers
     {
         NotesDataAccessLayer objNote = new NotesDataAccessLayer();
 
+        //To fetch all notes
         [HttpGet]
-        [Route("api/StorMe/Index")]
+        [Route("api/StorMe/Notes")]
         public IEnumerable<Notes> Get()
         {
             return objNote.GetAllNotes();
-            //return objNote.GetAllNote();
         }
 
+        //To add new note
         [HttpPost]
         [Route("api/StorMe/Create")]
         public int Create(Notes note)
@@ -29,20 +30,7 @@ namespace StorMe.Controllers
             return objNote.AddNote(note);
         }
 
-        [HttpGet]
-        [Route("api/StorMe/Note/{label}")]
-        public Notes DetailsLabel(string label)
-        {
-            return objNote.GetLabelNotes(label);
-        }
-
-        [HttpGet]
-        [Route("api/StorMe/Note/{title}")]
-        public Notes DetailsTitle(string title)
-        {
-            return objNote.GetNote(title);
-        }
-
+        //To Update the a particular note  
         [HttpPut]
         [Route("api/StorMe/Edit")]
         public int Edit(Notes note)
@@ -50,18 +38,28 @@ namespace StorMe.Controllers
             return objNote.UpdateNote(note);
         }
 
+        //Get a note with label
+        [HttpGet]
+        [Route("api/StorMe/Note/{label}")]
+        public Notes DetailsLabel(string label)
+        {
+            return objNote.GetLabelNotes(label);
+        }
+
+        //Get a note with title
+        [HttpGet]
+        [Route("api/StorMe/Note/{title}")]
+        public Notes DetailsTitle(string title)
+        {
+            return objNote.GetNote(title);
+        }
+        
+        //To Delete a particular note
         [HttpDelete]
         [Route("api/StorMe/Delete/{id}")]
         public int Delete(int id)
         {
             return objNote.DeleteNote(id);
-        }
-
-        [HttpGet]
-        [Route("api/StorMe")]
-        public IEnumerable<Notes> Details()
-        {
-            return objNote.GetNotesList();
         }
     }
 }

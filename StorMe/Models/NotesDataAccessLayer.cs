@@ -10,6 +10,7 @@ namespace StorMe.Models
     {
         StorMeDBContext db = new StorMeDBContext();
 
+        //To fetch all notes
         public IEnumerable<Notes> GetAllNotes()
         {
             try
@@ -55,7 +56,7 @@ namespace StorMe.Models
             }
         }
 
-        //Get a note with labels
+        //Get a note with label
         public Notes GetLabelNotes(string label)
         {
             try
@@ -85,7 +86,7 @@ namespace StorMe.Models
             }
         }
 
-        //To Delete the record of a particular employee    
+        //To Delete a particular note
         public int DeleteNote(int id)
         {
             try
@@ -100,14 +101,6 @@ namespace StorMe.Models
             {
                 throw;
             }
-        }
-
-        //To Get the list of Cities    
-        public List<Notes> GetNotesList()
-        {
-            List<Notes> lst = new List<Notes>();
-            lst = (from NotesList in db.Notes select NotesList).ToList();
-            return lst;
         }
     }
 }
