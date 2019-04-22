@@ -22,7 +22,7 @@ export class AddNote extends React.Component<RouteComponentProps<{}>, AddNoteDat
 
         var id = this.props.match.params["id"];
 
-        // This will set state for Edit employee  
+        // This will set state for Edit note  
 
         if (id > 0) {
             fetch('api/StorMe' + id)
@@ -32,7 +32,7 @@ export class AddNote extends React.Component<RouteComponentProps<{}>, AddNoteDat
                 });
         }
 
-        // This will set state for Add employee  
+        // This will set state for Add note  
 
         else {
             this.state = { title: "Create", loading: false, allNotes: [], notesData: new NotesData };
@@ -64,9 +64,10 @@ export class AddNote extends React.Component<RouteComponentProps<{}>, AddNoteDat
 
         event.preventDefault();
         const data = new FormData(event.target);
-        // PUT request for Edit employee.
+        
+		// PUT request for Edit note.
 
-        /*if (this.state.notesData.noteId) {
+        if (this.state.notesData.noteId) {
             fetch('api/StorMe/Edit', {
                 method: 'PUT',
                 body: data,
@@ -75,8 +76,7 @@ export class AddNote extends React.Component<RouteComponentProps<{}>, AddNoteDat
                     this.props.history.push("/fetchdata");
                 })
         }
-
-
+		
         // POST request for Add note.
 
         fetch('api/StorMe/Create', {
@@ -86,7 +86,7 @@ export class AddNote extends React.Component<RouteComponentProps<{}>, AddNoteDat
             .then((responseJson) => {
                 this.props.history.push("/fetchdata");
             })
-        */
+       
         this.props.history.push("/fetchdata");
 
     }
@@ -100,7 +100,7 @@ export class AddNote extends React.Component<RouteComponentProps<{}>, AddNoteDat
 
     // Returns the HTML Form to the render() method.  
 
-    private renderCreateForm(cityList: Array<any>) {
+    private renderCreateForm(allNotes: Array<any>) {
         return (
             <form onSubmit={this.handleSave} >
                 <div className="form-group row" >
@@ -109,7 +109,7 @@ export class AddNote extends React.Component<RouteComponentProps<{}>, AddNoteDat
                 < div className="form-group row" >
                     <label className=" control-label col-md-12" htmlFor="Label">Label</label>
                     <div className="col-md-4">
-                        <input className="form-control" type="text" name="label" defaultValue={this.state.notesData.label} required />
+                         <input className="form-control" type="text" name="label" defaultValue={this.state.notesData.label} required />
                     </div>
                 </div >
                 < div className="form-group row" >

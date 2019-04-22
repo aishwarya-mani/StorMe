@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
+using Microsoft.Extensions.Logging;
 
 namespace StorMe.Models
 {
@@ -102,5 +104,13 @@ namespace StorMe.Models
                 throw;
             }
         }
+
+        public List<TestTable> GetList()
+        {
+            List<TestTable> list = new List<TestTable>();
+            list = (from labels in db.TestTable select labels).ToList();
+            return list;
+        }
+
     }
 }

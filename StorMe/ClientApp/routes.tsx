@@ -11,6 +11,6 @@ export const routes = <Layout>
     <Route exact path='/' component={ Home } />
     <Route path='/addNote' component={ AddNote } />
     <Route path='/fetchdata' component={ FetchData } />
-    <Route path='/StorMe/edit/:id' component={AddNote} />
+    <Route path='/StorMe/edit/:noteId' component={ AddNote } />
     <Route path='/search' component={Search} />
 </Layout>;

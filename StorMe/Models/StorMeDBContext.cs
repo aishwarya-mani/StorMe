@@ -16,6 +16,7 @@ namespace StorMe.Models
         }
 
         public virtual DbSet<Notes> Notes { get; set; }
+        public virtual DbSet<TestTable> TestTable { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -47,6 +48,16 @@ namespace StorMe.Models
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<TestTable>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Label)
+                    .IsRequired()
+                    .HasMaxLength(20)
                     .IsUnicode(false);
             });
         }

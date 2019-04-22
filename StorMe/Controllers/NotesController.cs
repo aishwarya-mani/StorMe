@@ -5,11 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StorMe.Models;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace StorMe.Controllers
 {
-    [Route("api/[controller]")]
     public class NotesController : Controller
     {
         NotesDataAccessLayer objNote = new NotesDataAccessLayer();
@@ -60,6 +57,13 @@ namespace StorMe.Controllers
         public int Delete(int id)
         {
             return objNote.DeleteNote(id);
+        }
+
+        [HttpGet]
+        [Route("api/StorMe/GetList")]
+        public IEnumerable<TestTable> Details()
+        {
+            return objNote.GetList();
         }
     }
 }
