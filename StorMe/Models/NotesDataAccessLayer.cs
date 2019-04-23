@@ -34,12 +34,10 @@ namespace StorMe.Models
                 db.SaveChanges();
                 return 1;
             }
-
             catch
             {
                 throw;
             }
-
         }
 
         //To Update the a particular note    
@@ -74,11 +72,26 @@ namespace StorMe.Models
         }
 
         //Get a note with title
-        public Notes GetNote(string title)
+        public Notes GetTitleNote(string title)
         {
             try
             {
                 Notes note = db.Notes.Find(title);
+                return note;
+            }
+
+            catch
+            {
+                throw;
+            }
+        }
+
+        //Get a note with id
+        public Notes GetNote(int id)
+        {
+            try
+            {
+                Notes note = db.Notes.Find(id);
                 return note;
             }
 
@@ -104,13 +117,5 @@ namespace StorMe.Models
                 throw;
             }
         }
-
-        public List<TestTable> GetList()
-        {
-            List<TestTable> list = new List<TestTable>();
-            list = (from labels in db.TestTable select labels).ToList();
-            return list;
-        }
-
     }
 }

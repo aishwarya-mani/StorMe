@@ -35,6 +35,14 @@ namespace StorMe.Controllers
             return objNote.UpdateNote(note);
         }
 
+        //Get a note with ID
+        [HttpGet]
+        [Route("api/StorMe/Note/{id}")]
+        public Notes Details(int id)
+        {
+            return objNote.GetNote(id);
+        }
+
         //Get a note with label
         [HttpGet]
         [Route("api/StorMe/Note/{label}")]
@@ -48,7 +56,7 @@ namespace StorMe.Controllers
         [Route("api/StorMe/Note/{title}")]
         public Notes DetailsTitle(string title)
         {
-            return objNote.GetNote(title);
+            return objNote.GetTitleNote(title);
         }
         
         //To Delete a particular note
@@ -57,13 +65,6 @@ namespace StorMe.Controllers
         public int Delete(int id)
         {
             return objNote.DeleteNote(id);
-        }
-
-        [HttpGet]
-        [Route("api/StorMe/GetList")]
-        public IEnumerable<TestTable> Details()
-        {
-            return objNote.GetList();
         }
     }
 }

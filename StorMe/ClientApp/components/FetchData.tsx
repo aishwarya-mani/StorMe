@@ -34,7 +34,7 @@ export class FetchData extends React.Component<RouteComponentProps<{}>, FetchNot
         </div>;  
     }
 
-    // Handle Delete request  
+    // Handle Delete Request  
     private handleDelete(id: number) {
         if (!confirm("Do you want to delete this note? "))
             return;
@@ -51,6 +51,8 @@ export class FetchData extends React.Component<RouteComponentProps<{}>, FetchNot
             });
         }
     }
+
+	// Handle Edit Request
     private handleEdit(id: number) {
         this.props.history.push("/StorMe/edit/" + id);
     }  

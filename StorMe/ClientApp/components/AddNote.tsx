@@ -20,12 +20,11 @@ export class AddNote extends React.Component<RouteComponentProps<{}>, AddNoteDat
                 this.setState({ allNotes: data });
             });
 
-        var id = this.props.match.params["id"];
+        var id = this.props.match.params["noteId"];
 
         // This will set state for Edit note  
-
-        if (id > 0) {
-            fetch('api/StorMe' + id)
+		if (id > 0) {
+            fetch('api/StorMe/Note/' + id)
                 .then(response => response.json() as Promise<NotesData>)
                 .then(data => {
                     this.setState({ title: "Edit", loading: false, notesData: data });
@@ -33,8 +32,7 @@ export class AddNote extends React.Component<RouteComponentProps<{}>, AddNoteDat
         }
 
         // This will set state for Add note  
-
-        else {
+		else {
             this.state = { title: "Create", loading: false, allNotes: [], notesData: new NotesData };
         }
 
@@ -47,7 +45,7 @@ export class AddNote extends React.Component<RouteComponentProps<{}>, AddNoteDat
     public render() {
 
         let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
+            ? <p><em>Loading...!</em></p>
             : this.renderCreateForm(this.state.allNotes);
         return <div>
 
@@ -104,7 +102,7 @@ export class AddNote extends React.Component<RouteComponentProps<{}>, AddNoteDat
         return (
             <form onSubmit={this.handleSave} >
                 <div className="form-group row" >
-                    <input type="hidden" name="employeeId" value={this.state.notesData.noteId} />
+                    <input type="hidden" name="noteId" value={this.state.notesData.noteId} />
                 </div>
                 < div className="form-group row" >
                     <label className=" control-label col-md-12" htmlFor="Label">Label</label>
